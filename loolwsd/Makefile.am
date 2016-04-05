@@ -25,6 +25,7 @@ loolwsd_SOURCES = Admin.cpp \
                   MasterProcessSession.cpp \
                   Storage.cpp \
                   TileCache.cpp \
+		  Unit.cpp \
                   $(shared_sources)
 
 noinst_PROGRAMS = connect \
@@ -73,6 +74,7 @@ noinst_HEADERS = Admin.hpp \
                  Rectangle.hpp \
                  Storage.hpp \
                  TileCache.hpp \
+		 Unit.hpp \
                  Util.hpp \
                  bundled/include/LibreOfficeKit/LibreOfficeKit.h \
                  bundled/include/LibreOfficeKit/LibreOfficeKitEnums.h \
