@@ -329,6 +329,7 @@ function onClick(id) {
 		else {
 			toolbar.uncheck('more');
 		}
+		w2ui['toolbar-up-more'].render();
 		resizeToolbar();
 	}
 	else if (id === 'help') {
@@ -1001,22 +1002,25 @@ $(document).ready(function() {
 
 function resizeToolbar() {
 	var has_more_items = false;
-
+	var toolbarup = w2ui['toolbar-up'];
+	var toolbarupmore = w2ui['toolbar-up-more'];
 	// move items from toolbar-up-more -> toolbar-up
 	while ($('#toolbar-up')[0].scrollWidth <= $(window).width()) {
-		var firstItem = $('#toolbar-up-more>table>tbody>tr>td:first');
-		if (firstItem.length < 1) {
+		var item = toolbarupmore.items[0];
+		if (!item) {
 			break;
 		}
-		var detached = $(firstItem).detach();
-		$(detached).insertAfter($('#toolbar-up>table>tbody>tr>td:nth-last-child(5)')[0]);
+		toolbarupmore.items.shift();
+		toolbarup.insert('right', item);
 	}
 
 	// move items from toolbar-up -> toolbar-up-more
-	while ($('#toolbar-up')[0].scrollWidth > $(window).width()) {
-		var detached = $('#toolbar-up>table>tbody>tr>td:nth-last-child(5)').detach();
-		$('#toolbar-up-more>table>tbody>tr').prepend(detached);
-
+	while ($('#toolbar-up')[0].scrollWidth > Math.max($(window).width(), parseInt($('body').css('min-width')))) {
+		var itemId = toolbarup.items[toolbarup.items.length - 4].id;
+		item = toolbarup.get(itemId);
+		toolbarup.remove(itemId);
+		var insertBeforeItemId = toolbarupmore.items[0];
+		toolbarupmore.insert(insertBeforeItemId, item);
 		has_more_items = true;
 	}
 
@@ -1031,6 +1035,7 @@ function resizeToolbar() {
 	var lastItem = $('#toolbar-up-more>table>tbody>tr>td[valign="middle"]').last();
 	if (lastItem.length) {
 		$('#toolbar-up-more').width($(lastItem).position().left + $(lastItem).width());
+		w2ui['toolbar-up-more'].render();
 	} else {
 		$('#toolbar-up-more').hide();
 		var toolbar = w2ui['toolbar-up'];
