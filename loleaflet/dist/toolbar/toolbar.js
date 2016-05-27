@@ -826,17 +826,17 @@ map.on('updatetoolbarcommandvalues', function (e) {
 		else if (map.getDocType() === 'presentation' || map.getDocType() === 'drawing') {
 			Object.keys(e.commandValues).forEach(function(style) {
 				switch (style) {
-					case 'graphics':
-					case 'table':
-					case 'cell':
-					case 'Commands':
-						break;
+				case 'graphics':
+				case 'table':
+				case 'cell':
+				case 'Commands':
+					break;
 
-					default:
-						if (styles.length === 0) {
-							styles = e.commandValues[style];
-						}
-						break;
+				default:
+					if (styles.length === 0) {
+						styles = e.commandValues[style];
+					}
+					break;
 				}
 			});
 		}
